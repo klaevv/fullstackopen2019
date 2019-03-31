@@ -8,13 +8,27 @@ const Statistics = ({good, neutral, bad}) => {
   return (
     <div>
       <h2>Statistiikkaa</h2>
-      <p>Hyvä: {good}</p>
-      <p>Neutraali: {neutral}</p>
-      <p>Huono: {bad}</p>
-      <p>Yhteensä: {sum}</p>
-      <p>Keskiarvo: {avg ? avg : 0}</p>
-      <p>Positiivisia {positives ? positives : 0} %</p>
+      <Statistic text="Hyvä" value={good} />
+      <Statistic text="Neutraali" value={neutral} />
+      <Statistic text="Huono" value={bad} />
+      <Statistic text="Yhteensä" value={sum} />
+      <Statistic text="Keskiarvo" value={avg ? avg : 0} />
+      <Statistic text="Positiivisia (%)" value={positives ? positives : 0} />
     </div>
+  )
+}
+
+const Statistic = ({text, value}) => {
+  return (
+    <p>{text}: {value}</p>
+  )
+}
+
+const Button = ({onClick, text}) => {
+  return (
+    <button onClick={onClick}>
+      {text}
+    </button>
   )
 }
 
@@ -27,15 +41,9 @@ const App = () => {
   return (
     <div>
       <h1>Anna palautetta</h1>
-      <button onClick={() => setGood(good + 1)}>
-        Hyvä :)
-      </button>
-      <button onClick={() => setNeutral(neutral + 1)} >
-        Neutraali :|
-      </button>
-      <button onClick={() => setBad(bad + 1)} >
-        Huono :(
-      </button>
+      <Button onClick={() => setGood(good + 1)} text="Hyvä :)" />
+      <Button onClick={() => setNeutral(neutral + 1)} text="Neutraali :|" />
+      <Button onClick={() => setBad(bad + 1)} text="Huono :(" />
       {hasFeedback && <Statistics good={good} neutral={neutral} bad={bad} />}
       {!hasFeedback && <p>Palautetta ei ole annettu</p>}
     </div>
