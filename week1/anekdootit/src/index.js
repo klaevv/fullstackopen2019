@@ -15,23 +15,47 @@ const handleVote = ({index, votes, setVotes}) => {
   setVotes(copy)
 }
 
+const TopAnecdote = ({anecdotes, votes}) => {
+  let max = 0
+  let selected = 0
+  for (let index = 0; index < anecdotes.length; index++) {
+    if (votes[index] > max) {
+      max = votes[index]
+      selected = index
+    }
+  }
+  return (
+    <div>
+      <h1>Top anecdote</h1>
+      {anecdotes[selected]}
+      <br />
+      Has {votes[selected]} votes
+    </div>
+  )
+}
+
 const App = ({anecdotes}) => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState([0, 0, 0, 0, 0, 0])
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <Button
         onClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))}
-        text="Uusi anekdootti"
+        text="New anecdote"
       />
       <Button
         onClick={() => handleVote({index: selected, votes, setVotes})}
-        text="Äänestä"
+        text="Vote"
       />
       <br />
       {anecdotes[selected]}
       <br />
       Has {votes[selected]} votes
+      <TopAnecdote
+        anecdotes={anecdotes}
+        votes={votes}
+      />
     </div>
   )
 }
