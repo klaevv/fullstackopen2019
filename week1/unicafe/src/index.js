@@ -8,19 +8,26 @@ const Statistics = ({good, neutral, bad}) => {
   return (
     <div>
       <h2>Statistiikkaa</h2>
-      <Statistic text="Hyvä" value={good} />
-      <Statistic text="Neutraali" value={neutral} />
-      <Statistic text="Huono" value={bad} />
-      <Statistic text="Yhteensä" value={sum} />
-      <Statistic text="Keskiarvo" value={avg ? avg : 0} />
-      <Statistic text="Positiivisia (%)" value={positives ? positives : 0} />
+      <table>
+        <tbody>
+          <Statistic text="Hyvä" value={good} />
+          <Statistic text="Neutraali" value={neutral} />
+          <Statistic text="Huono" value={bad} />
+          <Statistic text="Yhteensä" value={sum} />
+          <Statistic text="Keskiarvo" value={avg ? avg : 0} />
+          <Statistic text="Positiivisia (%)" value={positives ? positives : 0} />
+        </tbody>
+      </table>
     </div>
   )
 }
 
 const Statistic = ({text, value}) => {
   return (
-    <p>{text}: {value}</p>
+    <tr>
+      <td>{text}:</td>
+      <td>{value}</td>
+    </tr>
   )
 }
 
