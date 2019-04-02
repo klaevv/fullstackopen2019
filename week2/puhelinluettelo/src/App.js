@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-
-const Person = (props) =>
-  <p>{props.name} {props.number}</p>
+import Person from './person'
+import SearchForm from './search-form'
+import AddForm from './add-form'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -51,28 +51,19 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
-      <form>
-        <div>
-          rajaa näytettäviä: <input value={newSearch} onChange={handleSearchChange} />
-        </div>
-      </form>
+      <SearchForm newSearch={newSearch} handleSearchChange={handleSearchChange} />
       <h3>Lisää uusi henkilö</h3>
-      <form onSubmit={addPerson}>
-        <div>
-          nimi: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          numero: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">lisää</button>
-        </div>
-      </form>
+      <AddForm
+        addPerson={addPerson}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
       <h2>Numerot</h2>
       {list.map(person => <Person key={person.name} name={person.name} number={person.number} />)}
     </div>
   )
-
 }
 
 export default App
