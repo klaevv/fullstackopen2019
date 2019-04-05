@@ -43,7 +43,8 @@ const App = () => {
   }
 
   const handleSearchChange = (event) => {
-    const results = persons.filter(person => person.name.includes(event.target.value))
+    const results = persons.filter(person =>
+      person.name.toUpperCase().includes(event.target.value.toUpperCase()))
     setFiltered(results)
     setNewSearch(event.target.value)
   }
