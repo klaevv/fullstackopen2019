@@ -21,34 +21,46 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+    const person = {
+      name: newName,
+      number: newNumber
+    }
     const names = persons.map(person => person.name)
+    const duplicate = persons.filter(person => person.name === newName)
     if (names.includes(newName)) {
-      alert(`${newName} on jo luettelossa`)
+      if (window.confirm(`${newName} on jo luettelossa, korvataanko numero?`)) {
+        personsService
+        .update(duplicate[0].id, person)
+        .then((response) => {
+          console.log(response)
+          const newList = persons.filter(person => person.id !== duplicate[0].id)
+          setPersons(newList.concat({ ...person, id: response.data.id }))
+          setNewName('')
+          setNewNumber('')
+        })
+      }
     }
     else {
-      const person = {
-        name: newName,
-        number: newNumber
-      }
       personsService
         .create(person)
         .then(response => {
           console.log(response)
           setPersons(persons.concat({ ...person, id: response.data.id }))
-          console.log('person: ', person)
           setNewName('')
           setNewNumber('')
         })
     }
   }
 
-  const removePerson = (id) => {
-    personsService
-      .remove(id)
-      .then((response) => {
-        console.log(response)
-        setPersons(persons.filter(person => person.id !== id))
-      })
+  const removePerson = (id, name) => {
+    if (window.confirm(`Poistetaanko ${name} luettelosta?`)) {
+      personsService
+        .remove(id)
+        .then((response) => {
+          console.log(response)
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
   }
 
   const handleNameChange = (event) => {
@@ -86,7 +98,7 @@ const App = () => {
           key={person.id}
           name={person.name}
           number={person.number}
-          onClick={() => removePerson(person.id)}
+          onClick={() => removePerson(person.id, person.name)}
         />)}
     </div>
   )

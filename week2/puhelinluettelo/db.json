@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hella",
-      "number": "044-400-401",
-      "id": 1
-    },
-    {
       "name": "Pentti Ahven",
       "number": "044-400-402",
       "id": 2
@@ -17,8 +12,13 @@
     },
     {
       "name": "Kalle Joki",
-      "number": "044-400-404",
+      "number": "044-400-407",
       "id": 4
+    },
+    {
+      "name": "Arto Hella",
+      "number": "044-400-406",
+      "id": 5
     }
   ]
 }
