@@ -35,7 +35,7 @@ const CountryInfo = ({name, capital, population, languages, flag}) => {
       <h3>Weather in {capital}</h3>
       <p>temperature: {weather.current && weather.current.temp_c} celsius</p>
       <img
-        alt="flag"
+        alt="weather"
         src={weather.current && weather.current.condition.icon}
         style={{height: 120}}
       />
