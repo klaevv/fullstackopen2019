@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Person from './person'
 import SearchForm from './search-form'
 import AddForm from './add-form'
+import personsService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -12,9 +12,11 @@ const App = () => {
   const [ newSearch, setNewSearch ] = useState('')
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then(response => {
-      setPersons(response.data)
-    })
+    personsService
+      .getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
   }, [])
 
   const addPerson = (event) => {
@@ -28,10 +30,25 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      setPersons(persons.concat(person))
-      setNewName('')
-      setNewNumber('')
+      personsService
+        .create(person)
+        .then(response => {
+          console.log(response)
+          setPersons(persons.concat({ ...person, id: response.data.id }))
+          console.log('person: ', person)
+          setNewName('')
+          setNewNumber('')
+        })
     }
+  }
+
+  const removePerson = (id) => {
+    personsService
+      .remove(id)
+      .then((response) => {
+        console.log(response)
+        setPersons(persons.filter(person => person.id !== id))
+      })
   }
 
   const handleNameChange = (event) => {
@@ -64,7 +81,13 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numerot</h2>
-      {list.map(person => <Person key={person.name} name={person.name} number={person.number} />)}
+      {list.map(person =>
+        <Person
+          key={person.id}
+          name={person.name}
+          number={person.number}
+          onClick={() => removePerson(person.id)}
+        />)}
     </div>
   )
 }
