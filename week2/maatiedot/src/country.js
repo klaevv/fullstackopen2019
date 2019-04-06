@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Person = (props) =>
-  <p>{props.name} {props.number}</p>
+const Country = (props) =>
+  <p>{props.name}</p>
 
-export default Person
+export default Country
