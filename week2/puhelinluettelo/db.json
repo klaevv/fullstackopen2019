@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Pentti Ahven",
-      "number": "044-400-402",
+      "number": "044-400-400",
       "id": 2
     },
     {
@@ -17,8 +17,13 @@
     },
     {
       "name": "Arto Hella",
-      "number": "044-400-406",
+      "number": "044-400-401",
       "id": 5
+    },
+    {
+      "name": "Jonne Kattila",
+      "number": "044-400-420",
+      "id": 6
     }
   ]
 }

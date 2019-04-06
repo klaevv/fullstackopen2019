@@ -26,18 +26,19 @@ const App = () => {
       number: newNumber
     }
     const names = persons.map(person => person.name)
-    const duplicate = persons.filter(person => person.name === newName)
     if (names.includes(newName)) {
       if (window.confirm(`${newName} on jo luettelossa, korvataanko numero?`)) {
+        const filteredList = persons.filter(person => person.name === newName)
+        const duplicate = filteredList[0]
         personsService
-        .update(duplicate[0].id, person)
-        .then((response) => {
-          console.log(response)
-          const newList = persons.filter(person => person.id !== duplicate[0].id)
-          setPersons(newList.concat({ ...person, id: response.data.id }))
-          setNewName('')
-          setNewNumber('')
-        })
+          .update(duplicate.id, person)
+          .then((response) => {
+            console.log(response)
+            const newList = persons.filter(person => person.id !== duplicate.id)
+            setPersons(newList.concat({ ...person, id: response.data.id }))
+            setNewName('')
+            setNewNumber('')
+          })
       }
     }
     else {
