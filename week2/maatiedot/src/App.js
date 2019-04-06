@@ -22,6 +22,13 @@ const App = () => {
     setNewSearch(event.target.value)
   }
 
+  const showCountryInfo = (name) => {
+    const results = countries.filter(country =>
+      country.name.toUpperCase().includes(name.toUpperCase()))
+    setFiltered(results)
+    setNewSearch(name)
+  }
+
   const list = newSearch ? filtered : countries
 
   return (
@@ -45,6 +52,7 @@ const App = () => {
         <Country
           key={country.name}
           name={country.name}
+          onClick={() => showCountryInfo(country.name)}
         />)
       }
       {list.length >= 11

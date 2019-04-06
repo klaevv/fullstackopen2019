@@ -1,6 +1,12 @@
 import React from 'react'
 
-const Country = (props) =>
-  <p>{props.name}</p>
+const Country = (props) => {
+  return (
+    <div>
+      <p>{props.name}</p>
+      <button type="button" onClick={props.onClick}>show</button>
+    </div>
+  )
+}
 
 export default Country
