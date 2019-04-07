@@ -3,6 +3,8 @@ import Person from './person'
 import SearchForm from './search-form'
 import AddForm from './add-form'
 import personsService from './services/persons'
+import Notification from './notification'
+import './index.css'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -10,6 +12,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     personsService
@@ -38,6 +41,7 @@ const App = () => {
             setPersons(newList.concat({ ...person, id: response.data.id }))
             setNewName('')
             setNewNumber('')
+            showNotification(`Henkilön ${person.name} numero on vaihdettu onnistuneesti!`)
           })
       }
     }
@@ -49,8 +53,16 @@ const App = () => {
           setPersons(persons.concat({ ...person, id: response.data.id }))
           setNewName('')
           setNewNumber('')
+          showNotification(`${person.name} on lisätty onnistuneesti!`)
         })
     }
+  }
+
+  const showNotification = (text) => {
+    setNotification(text)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   }
 
   const removePerson = (id, name) => {
@@ -60,6 +72,7 @@ const App = () => {
         .then((response) => {
           console.log(response)
           setPersons(persons.filter(person => person.id !== id))
+          showNotification(`${name} on poistettu onnistuneesti!`)
         })
     }
   }
@@ -84,6 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
+      <Notification message={notification} />
       <SearchForm newSearch={newSearch} handleSearchChange={handleSearchChange} />
       <h3>Lisää uusi henkilö</h3>
       <AddForm
