@@ -2,13 +2,8 @@
   "persons": [
     {
       "name": "Pentti Ahven",
-      "number": "044-400-400",
+      "number": "044-400-406",
       "id": 2
-    },
-    {
-      "name": "Marko Puro",
-      "number": "044-400-403",
-      "id": 3
     },
     {
       "name": "Kalle Joki",
@@ -22,12 +17,12 @@
     },
     {
       "name": "Jonne Kattila",
-      "number": "044-400-420",
+      "number": "044-400-405",
       "id": 6
     },
     {
-      "name": "Antti Ahven",
-      "number": "044-400-421",
+      "name": "Marko Puro",
+      "number": "044-400-404",
       "id": 7
     }
   ]

@@ -5,6 +5,7 @@ import AddForm from './add-form'
 import personsService from './services/persons'
 import Notification from './notification'
 import './index.css'
+import Error from './error'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -13,6 +14,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
   const [notification, setNotification] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     personsService
@@ -43,6 +45,9 @@ const App = () => {
             setNewNumber('')
             showNotification(`Henkilön ${person.name} numero on vaihdettu onnistuneesti!`)
           })
+          .catch((error) => {
+            showError(`Henkilön ${person.name} numeron vaihtaminen epäonnistui :(`)
+          })
       }
     }
     else {
@@ -55,6 +60,9 @@ const App = () => {
           setNewNumber('')
           showNotification(`${person.name} on lisätty onnistuneesti!`)
         })
+        .catch((error) => {
+          showError(`Henkilön ${person.name} lisääminen epäonnistui :(`)
+        })
     }
   }
 
@@ -62,6 +70,13 @@ const App = () => {
     setNotification(text)
     setTimeout(() => {
       setNotification(null)
+    }, 5000)
+  }
+
+  const showError = (text) => {
+    setError(text)
+    setTimeout(() => {
+      setError(null)
     }, 5000)
   }
 
@@ -73,6 +88,9 @@ const App = () => {
           console.log(response)
           setPersons(persons.filter(person => person.id !== id))
           showNotification(`${name} on poistettu onnistuneesti!`)
+        })
+        .catch((error) => {
+          showError(`${name} on jo poistettu palvelimelta :(`)
         })
     }
   }
@@ -98,6 +116,7 @@ const App = () => {
     <div>
       <h2>Puhelinluettelo</h2>
       <Notification message={notification} />
+      <Error message={error} />
       <SearchForm newSearch={newSearch} handleSearchChange={handleSearchChange} />
       <h3>Lisää uusi henkilö</h3>
       <AddForm
