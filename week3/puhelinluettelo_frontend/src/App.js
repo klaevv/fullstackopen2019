@@ -61,7 +61,7 @@ const App = () => {
           showNotification(`${person.name} on lisätty onnistuneesti!`)
         })
         .catch((error) => {
-          showError(`Henkilön ${person.name} lisääminen epäonnistui :(`)
+          showError(JSON.stringify(error.response.data))
         })
     }
   }
