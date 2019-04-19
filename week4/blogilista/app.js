@@ -7,9 +7,9 @@ const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
 
 
-console.log('commecting to', config.MONGODB_URI)
+console.log('commecting to', config.mongoUrl)
 
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.mongoUrl, { useNewUrlParser: true })
   .then(() => {
     console.log('connected to MongoDB')
   })
