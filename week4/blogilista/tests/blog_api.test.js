@@ -54,6 +54,23 @@ test('a valid blog can be added ', async () => {
   )
 })
 
+test('a blog gets default likes value ', async () => {
+  const newBlog = {
+    title: 'Lorem ipsum',
+    author: 'B. Martin',
+    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Lorem ipsum.html'
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r)
+  expect(response.body.length).toBe(initialBlogs.length + 1)
+  expect(contents[contents.length - 1].likes).toEqual(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
