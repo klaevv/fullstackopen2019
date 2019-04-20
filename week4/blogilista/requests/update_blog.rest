@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/5cbaccae640c4adcde7b6cad HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Lorem ipsum",
+    "author": "John Doe",
+    "url": "www.asd.com",
+    "likes": "1"
+}
