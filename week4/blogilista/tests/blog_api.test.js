@@ -71,6 +71,38 @@ test('a blog gets default likes value ', async () => {
   expect(contents[contents.length - 1].likes).toEqual(0)
 })
 
+test('a blog without title is rejected ', async () => {
+  const newBlog = {
+    author: 'B. Martin',
+    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Lorem ipsum.html',
+    likes: 3
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r)
+  expect(response.body.length).toBe(initialBlogs.length)
+})
+
+test('a blog without url is rejected ', async () => {
+  const newBlog = {
+    title: 'Lorem ipsum',
+    author: 'B. Martin',
+    likes: 3
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r)
+  expect(response.body.length).toBe(initialBlogs.length)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
