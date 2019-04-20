@@ -34,6 +34,26 @@ test('id is defined', async () => {
   expect(contents[0].id).toBeDefined()
 })
 
+test('a valid blog can be added ', async () => {
+  const newBlog = {
+    title: 'Lorem ipsum',
+    author: 'B. Martin',
+    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Lorem ipsum.html',
+    likes: 3
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r)
+  expect(response.body.length).toBe(initialBlogs.length + 1)
+  expect(contents[contents.length - 1].title).toContain(
+    'Lorem ipsum'
+  )
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
