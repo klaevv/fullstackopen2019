@@ -14,7 +14,6 @@ blogsRouter.post('/', async (request, response, next) => {
   } else {
     try {
       const user = await User.findById(body.userId)
-      console.log('user: ', user)
       const blog = new Blog({
         title: body.title,
         author: body.author,
