@@ -83,7 +83,6 @@ test('a blog without title is rejected ', async () => {
     .expect(400)
     .expect('Content-Type', /application\/json/)
   const response = await api.get('/api/blogs')
-  const contents = response.body.map(r => r)
   expect(response.body.length).toBe(initialBlogs.length)
 })
 
@@ -99,7 +98,6 @@ test('a blog without url is rejected ', async () => {
     .expect(400)
     .expect('Content-Type', /application\/json/)
   const response = await api.get('/api/blogs')
-  const contents = response.body.map(r => r)
   expect(response.body.length).toBe(initialBlogs.length)
 })
 
