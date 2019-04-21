@@ -7,7 +7,8 @@ const blogSchema = mongoose.Schema({
   likes: {
     type: Number,
     default: 0
-  }
+  },
+  userId: String
 })
 
 blogSchema.set('toJSON', {
