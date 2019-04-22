@@ -45,11 +45,8 @@ blogsRouter.delete('/:id', async (request, response, next) => {
         return response.status(401).json({ error: 'token invalid' })
       }
     }
-    // const user = await User.findById(request.params.id)
     const blog = await Blog.findById(request.params.id)
     const user = await User.findById(blog.userId)
-    console.log('decodedToken: ', decodedToken)
-    console.log('user._id: ', user._id)
     if (decodedToken.username !== user.username) {
       return response.status(401).json({ error: 'forbidden' })
     }
