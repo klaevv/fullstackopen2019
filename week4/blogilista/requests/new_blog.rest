@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtsYWV2diIsImlkIjoiNWNiY2I0NWM2Y2NhNDllNDEzY2FhYTMzIiwiaWF0IjoxNTU1ODgxMjk1fQ.HmWVyKilGJ9bjMwNaGJgZkoN39hD1aSiVHnl42DvXVI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtsYWV2diIsImlkIjoiNWNiY2I0NWM2Y2NhNDllNDEzY2FhYTMzIiwiaWF0IjoxNTU1OTM2NDEzfQ.g6YzbJVthL8ZxefTgRwQzrWurSxzdkglvXcpiega0gk
 
 {
-    "title": "Lorem ipsum",
+    "title": "Test blog",
     "author": "John Bro",
     "url": "www.asd.com",
     "likes": "9001",
