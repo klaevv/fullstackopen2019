@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import blogService from './services/blogs'
+import blogService from './services/blogService'
 import loginService from './services/login'
 
 const App = () => {
@@ -8,6 +8,10 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState('')
+
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -48,6 +52,24 @@ const App = () => {
     setUser('')
   }
 
+  const createBlog = (event) => {
+    event.preventDefault()
+    const newBlog = {
+      title,
+      author,
+      url
+    }
+    console.log('blog: ', newBlog)
+    blogService
+      .create(newBlog)
+      .then(blog => {
+        setBlogs(blogs.concat(blog))
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+      })
+  }
+
   if (user) {
     return (
       <div>
@@ -57,16 +79,47 @@ const App = () => {
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
+        <h2>Create new</h2>
+          <form onSubmit={createBlog}>
+            <div>
+              title
+              <input
+                type="title"
+                value={title}
+                name="title"
+                onChange={({ target }) => setTitle(target.value)}
+              />
+            </div>
+            <div>
+              author
+              <input
+                type="author"
+                value={author}
+                name="author"
+                onChange={({ target }) => setAuthor(target.value)}
+              />
+            </div>
+            <div>
+              url
+              <input
+                type="url"
+                value={url}
+                name="url"
+                onChange={({ target }) => setUrl(target.value)}
+              />
+            </div>
+            <button type="submit">create</button>
+          </form>
       </div>
     )
   }
 
   return (
     <div>
-      <h2>Kirjaudu</h2>
+      <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div>
-          käyttäjätunnus
+          username
           <input
             type="text"
             value={username}
@@ -75,7 +128,7 @@ const App = () => {
           />
         </div>
         <div>
-          salasana
+          password
           <input
             type="password"
             value={password}
