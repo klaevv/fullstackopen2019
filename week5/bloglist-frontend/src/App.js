@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogService'
 import loginService from './services/login'
+import './index.css'
+import Notification from './notification'
+import Error from './error'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,6 +15,9 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const [notification, setNotification] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -28,6 +34,20 @@ const App = () => {
     }
   }, [])
 
+  const showNotification = (text) => {
+    setNotification(text)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
+  const showError = (text) => {
+    setError(text)
+    setTimeout(() => {
+      setError(null)
+    }, 5000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -41,7 +61,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch {
-      console.log('logging error with', username, password)
+      showError(`invalid credentials for ${username}`)
     }
   }
 
@@ -54,25 +74,31 @@ const App = () => {
 
   const createBlog = (event) => {
     event.preventDefault()
-    const newBlog = {
-      title,
-      author,
-      url
+    try {
+      const newBlog = {
+        title,
+        author,
+        url
+      }
+      blogService
+        .create(newBlog)
+        .then(blog => {
+          setBlogs(blogs.concat(blog))
+          showNotification(
+            `${title} by ${author} (${url}) added`
+          )
+          setTitle('')
+          setAuthor('')
+          setUrl('')
+        })
+    } catch(error) {
     }
-    console.log('blog: ', newBlog)
-    blogService
-      .create(newBlog)
-      .then(blog => {
-        setBlogs(blogs.concat(blog))
-        setTitle('')
-        setAuthor('')
-        setUrl('')
-      })
   }
 
   if (user) {
     return (
       <div>
+        <Notification message={notification} />
         <h2>blogs</h2>
         <p>{`${user.name} logged in :)`}</p>
         <button type="button" onClick={handleLogout}>logout</button>
@@ -116,6 +142,7 @@ const App = () => {
 
   return (
     <div>
+      <Error message={error} />
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div>
