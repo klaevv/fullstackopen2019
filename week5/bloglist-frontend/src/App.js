@@ -19,6 +19,8 @@ const App = () => {
   const [notification, setNotification] = useState(null)
   const [error, setError] = useState(null)
 
+  const [createBlogVisible, setCreateBlogVisible] = useState(false)
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -90,22 +92,23 @@ const App = () => {
           setTitle('')
           setAuthor('')
           setUrl('')
+          setCreateBlogVisible(false)
         })
     } catch(error) {
     }
   }
 
-  if (user) {
+  const blogForm = () => {
+    const hideWhenVisible = { display: createBlogVisible ? 'none' : '' }
+    const showWhenVisible = { display: createBlogVisible ? '' : 'none' }
+
     return (
       <div>
-        <Notification message={notification} />
-        <h2>blogs</h2>
-        <p>{`${user.name} logged in :)`}</p>
-        <button type="button" onClick={handleLogout}>logout</button>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
-        <h2>Create new</h2>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setCreateBlogVisible(true)}>create</button>
+        </div>
+        <div style={showWhenVisible}>
+          <h2>Create new</h2>
           <form onSubmit={createBlog}>
             <div>
               title
@@ -134,8 +137,24 @@ const App = () => {
                 onChange={({ target }) => setUrl(target.value)}
               />
             </div>
-            <button type="submit">create</button>
+            <button type="submit">save</button>
           </form>
+        </div>
+      </div>
+    )
+}
+
+  if (user) {
+    return (
+      <div>
+        <Notification message={notification} />
+        <h2>blogs</h2>
+        <p>{`${user.name} logged in :)`}</p>
+        <button type="button" onClick={handleLogout}>logout</button>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
+        {blogForm()}
       </div>
     )
   }
