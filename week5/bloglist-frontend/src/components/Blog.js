@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog, user, likeBlog }) => {
   const [fullInfoVisible, setfullInfoVisible] = useState(false)
 
   const blogStyle = {
@@ -20,7 +20,10 @@ const Blog = ({ blog, user }) => {
           {blog.url}
         </div>
         <div>
-          likes: {blog.likes} <button type="button" onClick={() => console.log('like')}>like</button>
+          likes: {blog.likes}
+          <button type="button" onClick={() => likeBlog(blog)}>
+            like
+          </button>
         </div>
         <div>
           added by: {user.username}
@@ -31,9 +34,11 @@ const Blog = ({ blog, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
-      <div onClick={() => setfullInfoVisible(!fullInfoVisible)}>
-        {blog.title}, {blog.author}
+    <div>
+      <div style={blogStyle}>
+        <div onClick={() => setfullInfoVisible(!fullInfoVisible)}>
+          {blog.title}, {blog.author}
+        </div>
       </div>
     </div>
   )

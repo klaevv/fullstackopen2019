@@ -98,6 +98,29 @@ const App = () => {
     }
   }
 
+  const likeBlog = (blog) => {
+    try {
+      const newBlog = {
+        user: user.id,
+        likes: blog.likes + 1,
+        author: blog.author,
+        title: blog.title,
+        url: blog.url
+      }
+      blogService
+        .update(blog.id, newBlog)
+        .then(blog => {
+          const updated = blogs.filter(b => b.id !== blog.id)
+          setBlogs(
+            updated.concat(blog)
+          )
+          showNotification(
+            `${blog.title} by ${blog.author} liked`
+          )
+        })
+    } catch(error) {}
+  }
+
   const blogForm = () => {
     const hideWhenVisible = { display: createBlogVisible ? 'none' : '' }
     const showWhenVisible = { display: createBlogVisible ? '' : 'none' }
@@ -152,7 +175,7 @@ const App = () => {
         <p>{`${user.name} logged in :)`}</p>
         <button type="button" onClick={handleLogout}>logout</button>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} />
+          <Blog key={blog.id} blog={blog} user={user} likeBlog={likeBlog} />
         )}
         {blogForm()}
       </div>

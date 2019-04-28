@@ -9,7 +9,7 @@ const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
 
 
-console.log('commecting to', config.mongoUrl)
+console.log('connecting to', config.mongoUrl)
 
 mongoose.connect(config.mongoUrl, { useNewUrlParser: true })
   .then(() => {
