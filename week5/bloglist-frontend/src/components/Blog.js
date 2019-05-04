@@ -29,9 +29,11 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
           added by: {user.username}
         </div>
         <div>
-          <button type="button" onClick={() => removeBlog(blog, user)}>
-            remove
-          </button>
+          {user && (
+            <button type="button" onClick={() => removeBlog(blog, user)}>
+              remove
+            </button>
+          )}
         </div>
       </div>
     </div>
