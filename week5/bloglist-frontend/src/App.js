@@ -122,6 +122,20 @@ const App = () => {
     } catch(error) {}
   }
 
+  const removeBlog = (blog, user) => {
+    if (window.confirm(`Poistetaanko ${blog.title}?`)) {
+      blogService
+        .remove(blog.id)
+        .then((response) => {
+          setBlogs(blogs.filter(b => b.id !== blog.id))
+          showNotification(`${blog.title} on poistettu onnistuneesti!`)
+        })
+        .catch((error) => {
+          showError(`${blog.title} on jo poistettu palvelimelta :(`)
+        })
+    }
+  }
+
   const blogForm = () => {
     const hideWhenVisible = { display: createBlogVisible ? 'none' : '' }
     const showWhenVisible = { display: createBlogVisible ? '' : 'none' }
@@ -176,7 +190,13 @@ const App = () => {
         <p>{`${user.name} logged in :)`}</p>
         <button type="button" onClick={handleLogout}>logout</button>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} likeBlog={likeBlog} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            user={user}
+            likeBlog={likeBlog}
+            removeBlog={removeBlog}
+          />
         )}
         {blogForm()}
       </div>

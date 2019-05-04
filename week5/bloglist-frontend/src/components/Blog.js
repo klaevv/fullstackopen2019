@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, user, likeBlog }) => {
+const Blog = ({ blog, user, likeBlog, removeBlog }) => {
   const [fullInfoVisible, setfullInfoVisible] = useState(false)
 
   const blogStyle = {
@@ -27,6 +27,11 @@ const Blog = ({ blog, user, likeBlog }) => {
         </div>
         <div>
           added by: {user.username}
+        </div>
+        <div>
+          <button type="button" onClick={() => removeBlog(blog, user)}>
+            remove
+          </button>
         </div>
       </div>
     </div>

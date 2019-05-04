@@ -8,7 +8,10 @@ const blogSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
-  userId: String
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BlogUser'
+  }
 })
 
 blogSchema.set('toJSON', {
