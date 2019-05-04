@@ -63,7 +63,7 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch {
+    } catch(error) {
       showError(`invalid credentials for ${username}`)
     }
   }
@@ -96,6 +96,7 @@ const App = () => {
           setCreateBlogVisible(false)
         })
     } catch(error) {
+      showError(`creating ${title} failed`)
     }
   }
 
@@ -119,18 +120,20 @@ const App = () => {
             `${blog.title} by ${blog.author} liked`
           )
         })
-    } catch(error) {}
+    } catch(error) {
+      showError(`liking ${title} failed`)
+    }
   }
 
-  const removeBlog = (blog, user) => {
+  const removeBlog = (blog) => {
     if (window.confirm(`Poistetaanko ${blog.title}?`)) {
       blogService
         .remove(blog.id)
-        .then((response) => {
+        .then(() => {
           setBlogs(blogs.filter(b => b.id !== blog.id))
           showNotification(`${blog.title} on poistettu onnistuneesti!`)
         })
-        .catch((error) => {
+        .catch(() => {
           showError(`${blog.title} on jo poistettu palvelimelta :(`)
         })
     }
@@ -180,7 +183,7 @@ const App = () => {
         </div>
       </div>
     )
-}
+  }
 
   if (user) {
     return (

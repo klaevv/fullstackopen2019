@@ -15,29 +15,29 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
   if (fullInfoVisible) {
     return (
       <div style={blogStyle}>
-      <div onClick={() => setfullInfoVisible(!fullInfoVisible)}>
-        {blog.title}, {blog.author}
-        <div>
-          {blog.url}
-        </div>
-        <div>
-          likes: {blog.likes}
-          <button type="button" onClick={() => likeBlog(blog)}>
-            like
-          </button>
-        </div>
-        <div>
-          added by: {user.username}
-        </div>
-        <div>
-          {user && (
-            <button type="button" onClick={() => removeBlog(blog, user)}>
-              remove
+        <div onClick={() => setfullInfoVisible(!fullInfoVisible)}>
+          {blog.title}, {blog.author}
+          <div>
+            {blog.url}
+          </div>
+          <div>
+            likes: {blog.likes}
+            <button type="button" onClick={() => likeBlog(blog)}>
+              like
             </button>
-          )}
+          </div>
+          <div>
+            added by: {user.username}
+          </div>
+          <div>
+            {user && (
+              <button type="button" onClick={() => removeBlog(blog, user)}>
+                remove
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
     )
   }
 
