@@ -9,10 +9,11 @@ test('renders content', () => {
   const callback = jest.mock()
   const blog = {
     title: 'Test blog',
-    author: 'klaevv'
+    author: 'klaevv',
+    likes: 2
   }
   const component = render(
     <SimpleBlog blog={blog} onclick={callback} />
   )
-  expect(component.container).toHaveTextContent('Test blog')
+  expect(component.container).toHaveTextContent('Test blog klaevvblog has 2 likes')
 })
