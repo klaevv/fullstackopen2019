@@ -22,7 +22,7 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
           </div>
           <div>
             likes: {blog.likes}
-            <button type="button" onClick={() => likeBlog(blog)}>
+            <button type="button" onClick={() => likeBlog(blog)} alt="like">
               like
             </button>
           </div>
@@ -43,10 +43,13 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
 
   return (
     <div>
-      <div style={blogStyle}>
-        <div onClick={() => setfullInfoVisible(!fullInfoVisible)}>
-          {blog.title}, {blog.author}
-        </div>
+      <div
+        style={blogStyle}
+        alt="smallBox"
+        onClick={() => setfullInfoVisible(!fullInfoVisible)}
+        className="openInfo"
+      >
+        {blog.title}, {blog.author}
       </div>
     </div>
   )

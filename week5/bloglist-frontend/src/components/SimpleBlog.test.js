@@ -6,7 +6,6 @@ import {
   cleanup
 } from 'react-testing-library'
 import SimpleBlog from './SimpleBlog'
-import { prettyDOM } from 'dom-testing-library'
 
 afterEach(cleanup)
 
@@ -18,7 +17,7 @@ test('renders content', () => {
   }
   const like = jest.fn()
   const component = render(
-    <SimpleBlog blog={blog} onClick={like} />
+    <SimpleBlog blog={blog} like={like} />
   )
   expect(component.container).toHaveTextContent('Test blog klaevvblog has 2 likes')
 })
@@ -36,7 +35,5 @@ it('calls the handler twice when cliked twice', async () => {
   const button = getByText('like')
   fireEvent.click(button)
   fireEvent.click(button)
-
   expect(like.mock.calls.length).toBe(2)
-
 })
