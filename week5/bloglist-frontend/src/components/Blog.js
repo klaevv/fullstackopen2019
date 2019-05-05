@@ -42,15 +42,13 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
   }
 
   return (
-    <div>
-      <div
-        style={blogStyle}
-        alt="smallBox"
-        onClick={() => setfullInfoVisible(!fullInfoVisible)}
-        className="openInfo"
-      >
-        {blog.title}, {blog.author}
-      </div>
+    <div
+      style={blogStyle}
+      alt="smallBox"
+      onClick={() => setfullInfoVisible(!fullInfoVisible)}
+      className="openInfo"
+    >
+      {blog.title}, {blog.author}
     </div>
   )
 }

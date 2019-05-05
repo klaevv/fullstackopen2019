@@ -32,7 +32,7 @@ test('renders content', () => {
   expect(component.container).toHaveTextContent('Test blog, klaevv')
 })
 
-it('calls the handler twice when cliked twice', async () => {
+it('shows info when the blog is clicked', async () => {
   const blog = {
     title: 'Test blog',
     author: 'klaevv',
