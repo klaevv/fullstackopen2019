@@ -29,5 +29,6 @@ describe('<App />', () => {
     component.rerender(<App />)
     await waitForElement(() => component.getByText('blogs'))
     expect(component.container).toHaveTextContent('John Doe logged in :)')
+    expect(component.container).toHaveTextContent('HTML on helppoa')
   })
 })
