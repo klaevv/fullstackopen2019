@@ -5,11 +5,13 @@ import loginService from './services/login'
 import './index.css'
 import Notification from './notification'
 import Error from './error'
+import  { useField } from './hooks'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const [user, setUser] = useState('')
 
   const [title, setTitle] = useState('')
@@ -55,23 +57,20 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password
+        username: username.value,
+        password: password.value
       })
       window.localStorage.setItem(
         'loggedBloglistUser', JSON.stringify(user)
       )
       setUser(user)
-      setUsername('')
-      setPassword('')
     } catch(error) {
-      showError(`invalid credentials for ${username}`)
+      showError(`invalid credentials for ${username.value}`)
     }
   }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBloglistUser')
-    setUsername('')
-    setPassword('')
     setUser('')
   }
 
@@ -205,7 +204,8 @@ const App = () => {
       </div>
     )
   }
-
+  console.log('username ', username)
+  console.log('password ', password)
   return (
     <div>
       <Error message={error} />
@@ -213,21 +213,11 @@ const App = () => {
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <input {...username} />
         </div>
         <div>
           password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <input {...password} />
         </div>
         <button type="submit">login</button>
       </form>
