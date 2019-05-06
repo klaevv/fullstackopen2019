@@ -63,6 +63,8 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBloglistUser', JSON.stringify(user)
       )
+      username.reset()
+      password.reset()
       setUser(user)
     } catch(error) {
       showError(`invalid credentials for ${username.value}`)
@@ -71,6 +73,8 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBloglistUser')
+    username.reset()
+    password.reset()
     setUser('')
   }
 
@@ -204,8 +208,10 @@ const App = () => {
       </div>
     )
   }
-  console.log('username ', username)
-  console.log('password ', password)
+  const usernameProps = Object.assign({}, username)
+  delete usernameProps.reset
+  const passwordProps = Object.assign({}, password)
+  delete passwordProps.reset
   return (
     <div>
       <Error message={error} />
@@ -213,11 +219,11 @@ const App = () => {
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input {...username} />
+          <input {...usernameProps} />
         </div>
         <div>
           password
-          <input {...password} />
+          <input {...passwordProps} />
         </div>
         <button type="submit">login</button>
       </form>
