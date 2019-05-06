@@ -14,7 +14,7 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
 
   if (fullInfoVisible) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className="blog">
         <div onClick={() => setfullInfoVisible(!fullInfoVisible)}>
           {blog.title}, {blog.author}
           <div>
