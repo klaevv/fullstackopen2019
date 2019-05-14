@@ -26,10 +26,12 @@ const App = ({ store }) => {
 
   const getId = () => (100000 * Math.random()).toFixed(0)
 
+  const sorted = anecdotes.sort((a, b) => b.votes - a.votes)
+
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
+      {sorted.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
