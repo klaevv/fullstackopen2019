@@ -1,30 +1,22 @@
 import React from 'react'
+import {
+  newNote,
+  newVote
+} from './reducers/anecdoteReducer'
 
 const App = ({ store }) => {
   const anecdotes = store.getState()
 
   const vote = (id) => {
-    store.dispatch({
-      type: 'VOTE',
-      id
-    })
+    store.dispatch(newVote(id))
   }
 
   const addNote = (event) => {
     event.preventDefault()
     const content = event.target.note.value
-    store.dispatch({
-      type: 'NEW_NOTE',
-      data: {
-        content,
-        id: getId(),
-        votes: 0
-      }
-    })
+    store.dispatch(newNote(content))
     event.target.note.value = ''
   }
-
-  const getId = () => (100000 * Math.random()).toFixed(0)
 
   const sorted = anecdotes.sort((a, b) => b.votes - a.votes)
 
