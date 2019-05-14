@@ -33,6 +33,8 @@ const reducer = (state = initialState, action) => {
       return state.map(note =>
         note.id !== id ? note : changedNote
       )
+    case 'NEW_NOTE':
+      return state.concat(action.data)
     default:
       return state
   }
