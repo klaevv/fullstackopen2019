@@ -1,19 +1,20 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { newNote } from '../reducers/anecdoteReducer'
 import { reset } from '../reducers/messageReducer'
 
-const AnecdoteForm = ({ store }) => {
+const AnecdoteForm = (props) => {
   const addNote = (event) => {
     event.preventDefault()
     const content = event.target.note.value
-    store.dispatch(newNote(content))
+    props.newNote(content)
     event.target.note.value = ''
     resetNotification()
   }
 
   const resetNotification = () => {
     setTimeout(() => {
-      store.dispatch(reset())
+      props.reset()
     }, 5000)
   }
 
@@ -28,4 +29,18 @@ const AnecdoteForm = ({ store }) => {
   )
 }
 
-export default AnecdoteForm
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = {
+  newNote,
+  reset
+}
+
+const ConnectedAnecdoteForm = connect(
+  mapStateToProps,
+  mapDispatchToProps
+  )(AnecdoteForm)
+export default ConnectedAnecdoteForm

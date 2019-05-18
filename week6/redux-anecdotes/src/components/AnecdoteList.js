@@ -1,23 +1,24 @@
 import React from 'react'
 import { newVote } from '../reducers/anecdoteReducer'
 import { reset } from '../reducers/messageReducer'
+import { connect } from 'react-redux'
 
-const AnecdoteList = ({ store }) => {
+const AnecdoteList = (props) => {
   const vote = (id) => {
-    store.dispatch(newVote(id))
+    props.newVote(id)
     resetNotification()
   }
 
   const resetNotification = () => {
     setTimeout(() => {
-      store.dispatch(reset())
+      props.reset()
     }, 5000)
   }
 
   const {
     anecdotes,
     filter
-  } = store.getState()
+  } = props
 
   const filtered = filter === 'ALL'
     ? anecdotes
@@ -43,4 +44,20 @@ const AnecdoteList = ({ store }) => {
   )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter,
+  }
+}
+
+const mapDispatchToProps = {
+  newVote,
+  reset
+}
+
+const ConnectedAnecdoteList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+  )(AnecdoteList)
+export default ConnectedAnecdoteList
