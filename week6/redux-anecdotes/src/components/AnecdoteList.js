@@ -15,21 +15,11 @@ const AnecdoteList = (props) => {
     }, 5000)
   }
 
-  const {
-    anecdotes,
-    filter
-  } = props
-
-  const filtered = filter === 'ALL'
-    ? anecdotes
-    : anecdotes.filter(anecdote =>
-        anecdote.content.toUpperCase().includes(filter.toUpperCase())
-      )
-  const sorted = filtered.sort((a, b) => b.votes - a.votes)
+  const { visibleAnecdotes } = props
 
   return (
     <div>
-      {sorted.map(anecdote =>
+      {visibleAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
@@ -44,10 +34,21 @@ const AnecdoteList = (props) => {
   )
 }
 
+const anecdotesToShow = ({ anecdotes, filter }) => {
+  const filtered = filter === 'ALL'
+    ? anecdotes
+    : anecdotes.filter(anecdote =>
+        anecdote.content.toUpperCase().includes(filter.toUpperCase())
+      )
+
+  const sorted = filtered.sort((a, b) => b.votes - a.votes)
+
+  return sorted
+}
+
 const mapStateToProps = (state) => {
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter,
+    visibleAnecdotes: anecdotesToShow(state)
   }
 }
 
