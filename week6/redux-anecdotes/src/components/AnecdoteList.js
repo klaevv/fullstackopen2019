@@ -14,7 +14,17 @@ const AnecdoteList = ({ store }) => {
     }, 5000)
   }
 
-  const sorted = store.getState().anecdotes.sort((a, b) => b.votes - a.votes)
+  const {
+    anecdotes,
+    filter
+  } = store.getState()
+
+  const filtered = filter === 'ALL'
+    ? anecdotes
+    : anecdotes.filter(anecdote =>
+        anecdote.content.toUpperCase().includes(filter.toUpperCase())
+      )
+  const sorted = filtered.sort((a, b) => b.votes - a.votes)
 
   return (
     <div>
