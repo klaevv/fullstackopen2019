@@ -7,7 +7,7 @@ import messageReducer from './reducers/messageReducer'
 
 const reducer = combineReducers({
   anecdotes: anecdoteReducer,
-  message: messageReducer
+  messages: messageReducer
 })
 
 const store = createStore(reducer)
