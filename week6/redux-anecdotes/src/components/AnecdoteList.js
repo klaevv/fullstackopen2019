@@ -6,7 +6,7 @@ const AnecdoteList = ({ store }) => {
     store.dispatch(newVote(id))
   }
 
-  const sorted = store.getState().sort((a, b) => b.votes - a.votes)
+  const sorted = store.getState().anecdotes.sort((a, b) => b.votes - a.votes)
 
   return (
     <div>
