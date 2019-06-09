@@ -2,9 +2,10 @@ import AnecdoteService from "../services/AnecdoteService"
 
 export const newVote = (id) => {
   return async dispatch => {
+    const anecdote = await AnecdoteService.vote(id)
     dispatch({
       type: 'VOTE',
-      id
+      id: anecdote.id
     })
   }
 }
@@ -16,7 +17,8 @@ export const newNote = (content) => {
       type: 'NEW_NOTE',
       data: {
         content: newAnecdote.content,
-        votes: 0
+        votes: 0,
+        id: newAnecdote.id
       }
     })
   }

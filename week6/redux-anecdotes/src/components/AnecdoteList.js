@@ -4,8 +4,8 @@ import { reset } from '../reducers/messageReducer'
 import { connect } from 'react-redux'
 
 const AnecdoteList = (props) => {
-  const vote = (id) => {
-    props.newVote(id)
+  const vote = (anecdote) => {
+    props.newVote(anecdote)
     resetNotification()
   }
 
@@ -19,14 +19,14 @@ const AnecdoteList = (props) => {
 
   return (
     <div>
-      {visibleAnecdotes.map((anecdote, i) =>
-        <div key={i}>
+      {visibleAnecdotes.map((anecdote) =>
+        <div key={anecdote.id}>
           <div>
             {anecdote.content}
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       )}

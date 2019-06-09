@@ -14,7 +14,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'NEW_NOTE':
       return {
-        message: `new anecdote ${action.data.content} created`
+        message: `new anecdote ${action.data.id} created`
       }
     case 'VOTE':
         return {
