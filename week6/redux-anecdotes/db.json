@@ -2,8 +2,8 @@
   "anecdotes": [
     {
       "content": "If it hurts, do it more often",
-      "id": "47145",
-      "votes": 0
+      "votes": 2,
+      "id": "47145"
     },
     {
       "content": "Adding manpower to a late software project makes it later!",
@@ -32,7 +32,7 @@
     },
     {
       "content": "spa on paras :D ja viina :D",
-      "votes": 1,
+      "votes": 4,
       "id": "xSp1O3z"
     },
     {
@@ -112,8 +112,33 @@
     },
     {
       "content": "Id pitää olla actionissa, muuten tulee key–herja",
-      "votes": 9,
+      "votes": 12,
       "id": "0WyagHh"
+    },
+    {
+      "content": "Testataan notskuja",
+      "votes": 0,
+      "id": "IZng8Gp"
+    },
+    {
+      "content": "spa on paras :D ja viina :D",
+      "votes": 0,
+      "id": "QBPaFpJ"
+    },
+    {
+      "content": "spa on paras :D ja rööki :D",
+      "votes": 0,
+      "id": "QoyTvlX"
+    },
+    {
+      "content": "alksjewgf",
+      "votes": 0,
+      "id": "M5pkbq-"
+    },
+    {
+      "content": "asdgawee",
+      "votes": 0,
+      "id": "8KLS65i"
     }
   ]
 }

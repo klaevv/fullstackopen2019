@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { newNote } from '../reducers/anecdoteReducer'
-import { reset } from '../reducers/messageReducer'
+import { setNotification } from '../reducers/messageReducer'
 
 const AnecdoteForm = (props) => {
   const addNote = async (event) => {
@@ -9,13 +9,7 @@ const AnecdoteForm = (props) => {
     const content = event.target.note.value
     event.target.note.value = ''
     props.newNote(content)
-    resetNotification()
-  }
-
-  const resetNotification = () => {
-    setTimeout(() => {
-      props.reset()
-    }, 5000)
+    props.setNotification(`new anecdote ${content} added`, 5)
   }
 
   return (
@@ -30,5 +24,5 @@ const AnecdoteForm = (props) => {
 }
 
 export default connect(
-  null, { newNote, reset }
+  null, { newNote, setNotification }
 )(AnecdoteForm)

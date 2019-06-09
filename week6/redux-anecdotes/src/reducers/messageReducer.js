@@ -2,9 +2,18 @@ const initialState = {
   message: ''
 }
 
-export const reset = () => {
-  return {
-    type: 'RESET'
+export const setNotification = (message, seconds) => {
+  const delay = seconds * 1000
+  return async dispatch => {
+    dispatch({
+      type: 'NEW_NOTIFICATION',
+      message
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'RESET'
+      })
+    }, delay)
   }
 }
 
@@ -12,14 +21,10 @@ const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch (action.type) {
-    case 'NEW_NOTE':
+    case 'NEW_NOTIFICATION':
       return {
-        message: `new anecdote ${action.data.id} created`
+        message: action.message
       }
-    case 'VOTE':
-        return {
-          message: `you voted ${action.id}`
-        }
     case 'RESET':
       return initialState
     default:
