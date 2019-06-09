@@ -19,8 +19,8 @@ const AnecdoteList = (props) => {
 
   return (
     <div>
-      {visibleAnecdotes.map(anecdote =>
-        <div key={anecdote.id}>
+      {visibleAnecdotes.map((anecdote, i) =>
+        <div key={i}>
           <div>
             {anecdote.content}
           </div>

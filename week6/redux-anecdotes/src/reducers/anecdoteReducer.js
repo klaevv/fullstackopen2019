@@ -1,9 +1,11 @@
 import AnecdoteService from "../services/AnecdoteService"
 
 export const newVote = (id) => {
-  return {
-    type: 'VOTE',
-    id
+  return async dispatch => {
+    dispatch({
+      type: 'VOTE',
+      id
+    })
   }
 }
 

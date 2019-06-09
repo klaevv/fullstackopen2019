@@ -17,5 +17,9 @@ const createNew = async (content) => {
   return response.data
 }
 
+const vote = async (content) => {
+  // ...
+}
+
 export default { getAll, createNew }
 
