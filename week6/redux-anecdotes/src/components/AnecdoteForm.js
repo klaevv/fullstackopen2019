@@ -29,18 +29,6 @@ const AnecdoteForm = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-  }
-}
-
-const mapDispatchToProps = {
-  newNote,
-  reset
-}
-
-const ConnectedAnecdoteForm = connect(
-  mapStateToProps,
-  mapDispatchToProps
-  )(AnecdoteForm)
-export default ConnectedAnecdoteForm
+export default connect(
+  null, { newNote, reset }
+)(AnecdoteForm)
