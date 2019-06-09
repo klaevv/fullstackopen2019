@@ -4,14 +4,11 @@ import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
 import Filter from './components/Filter'
-import anecdoteService from './services/AnecdoteService'
 import { initializeNotes } from './reducers/anecdoteReducer'
 
 const App = ({ store, initializeNotes }) => {
   useEffect(() => {
-    anecdoteService
-    .getAll()
-    .then(notes => initializeNotes(notes))
+    initializeNotes()
   },[])
 
   return (

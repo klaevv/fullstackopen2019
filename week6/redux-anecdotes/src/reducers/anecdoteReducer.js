@@ -1,12 +1,4 @@
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+import AnecdoteService from "../services/AnecdoteService"
 
 export const newVote = (id) => {
   return {
@@ -16,19 +8,25 @@ export const newVote = (id) => {
 }
 
 export const newNote = (content) => {
-  return {
-    type: 'NEW_NOTE',
-    data: {
-      content,
-      votes: 0
-    }
+  return async dispatch => {
+    const newAnecdote = await AnecdoteService.createNew(content)
+    dispatch({
+      type: 'NEW_NOTE',
+      data: {
+        content: newAnecdote.content,
+        votes: 0
+      }
+    })
   }
 }
 
-export const initializeNotes = (notes) => {
-  return {
-    type: 'INIT_NOTES',
-    data: notes,
+export const initializeNotes = () => {
+  return async dispatch => {
+    const notes = await AnecdoteService.getAll()
+    dispatch({
+      type: 'INIT_NOTES',
+      data: notes,
+    })
   }
 }
 
