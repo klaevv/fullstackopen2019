@@ -21,6 +21,21 @@ const Menu = (props) => {
       <Route exact path="/" render={() => <AnecdoteList anecdotes={props.anecdotes} />} />
       <Route exact path="/create" render={() => <CreateNew addNew={props.addNew} />} />
       <Route exact path="/about" render={() => <About />} />
+      <Route exact path="/anecdotes/:id" render={({ match }) => {
+        const anecdote = props.anecdoteById(match.params.id)
+        return (
+          <div>
+            <h2>
+              {anecdote.content}
+            </h2>
+            <p>{`has ${anecdote.votes} votes`}</p>
+            for more info see
+            <a href={anecdote.info} >
+              {` ${anecdote.info}`}
+            </a>
+          </div>
+        )
+      }} />
     </Router>
   )
 }
@@ -29,7 +44,11 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote =>
+        <li key={anecdote.id} >
+          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>
+      )}
     </ul>
   </div>
 )
@@ -51,7 +70,6 @@ const About = () => (
 const Footer = () => (
   <div>
     Anecdote app for <a href='https://courses.helsinki.fi/fi/tkt21009'>Full Stack -sovelluskehitys</a>.
-
     See <a href='https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
   </div>
 )
@@ -137,10 +155,10 @@ const App = () => {
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Menu anecdotes={anecdotes} addNew={addNew} />
+      <Menu anecdotes={anecdotes} addNew={addNew} anecdoteById={anecdoteById} />
       <Footer />
     </div>
   )
 }
 
-export default App;
+export default App
