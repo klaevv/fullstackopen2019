@@ -20,7 +20,7 @@ const Menu = (props) => {
         <Link style={padding} to="/about">about</Link>
       </div>
       <Route exact path="/" render={() => <AnecdoteList anecdotes={props.anecdotes} />} />
-      <Route exact path="/create" render={() => <Create addNew={props.addNew} showNotification={props.showNotification} />} />
+      <Route exact path="/create" render={() => <Create addNew={props.addNew} />} />
       <Route exact path="/about" render={() => <About />} />
       <Route exact path="/anecdotes/:id" render={({ match }) => {
         const anecdote = props.anecdoteById(match.params.id)
@@ -166,7 +166,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Notification message={notification} />
-      <Menu anecdotes={anecdotes} addNew={addNew} anecdoteById={anecdoteById} showNotification={showNotification} />
+      <Menu anecdotes={anecdotes} addNew={addNew} anecdoteById={anecdoteById} />
       <Footer />
     </div>
   )
