@@ -11,7 +11,6 @@ import { setUser } from './reducers/userReducer'
 import Notification from './components/Notification'
 import Error from './components/Error'
 
-
 const App = (props) => {
   const username = useField('text')
   const password = useField('password')
