@@ -7,6 +7,7 @@ import loginService from './services/login'
 import  { useField } from './hooks'
 import { setNotification, setError } from './reducers/messageReducer'
 import { setBlogs } from './reducers/blogReducer'
+import { setUser } from './reducers/userReducer'
 import Notification from './components/Notification'
 import Error from './components/Error'
 
@@ -14,7 +15,6 @@ import Error from './components/Error'
 const App = (props) => {
   const username = useField('text')
   const password = useField('password')
-  const [user, setUser] = useState('')
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -33,7 +33,7 @@ const App = (props) => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      props.setUser(user)
       blogService.setToken(user.token)
     }
   }, [])
@@ -50,7 +50,7 @@ const App = (props) => {
       )
       username.reset()
       password.reset()
-      setUser(user)
+      props.setUser(user)
     } catch(error) {
       props.setError(`invalid credentials for ${username.value}`, 5)
     }
@@ -60,7 +60,7 @@ const App = (props) => {
     window.localStorage.removeItem('loggedBloglistUser')
     username.reset()
     password.reset()
-    setUser('')
+    props.setUser(null)
   }
 
   const createBlog = (event) => {
@@ -89,7 +89,7 @@ const App = (props) => {
   const likeBlog = (blog) => {
     try {
       const newBlog = {
-        user: user.id,
+        user: props.user.id,
         likes: blog.likes + 1,
         author: blog.author,
         title: blog.title,
@@ -168,19 +168,19 @@ const App = (props) => {
       </div>
     )
   }
-  if (user) {
+  if (props.user) {
     return (
       <div>
         <Notification />
         <Error />
         <h2>blogs</h2>
-        <p>{`${user.name} logged in :)`}</p>
+        <p>{`${props.user.name} logged in :)`}</p>
         <button type="button" onClick={handleLogout}>logout</button>
         {props.blogs.map(blog =>
           <Blog
             key={blog.id}
             blog={blog}
-            user={user}
+            user={props.user}
             likeBlog={likeBlog}
             removeBlog={removeBlog}
           />
@@ -215,14 +215,21 @@ const App = (props) => {
 
 App.propTypes = {
   blogs: PropTypes.array.isRequired,
+  user: PropTypes.object,
   setNotification: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
-  setBlogs: PropTypes.func.isRequired
+  setBlogs: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired
+}
+
+App.defaultProps = {
+  user: null
 }
 
 const mapStateToProps = (state) => {
   return {
-    blogs: state.blogState.blogs
+    blogs: state.blogState.blogs,
+    user: state.userState.user
   }
 }
 
@@ -231,7 +238,8 @@ const ConnectedApp = connect(
   {
     setNotification,
     setError,
-    setBlogs
+    setBlogs,
+    setUser
   }
 )(App)
 
