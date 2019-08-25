@@ -6,12 +6,12 @@ import blogService from './services/blogService'
 import loginService from './services/login'
 import  { useField } from './hooks'
 import { setNotification, setError } from './reducers/messageReducer'
+import { setBlogs } from './reducers/blogReducer'
 import Notification from './components/Notification'
 import Error from './components/Error'
 
 
 const App = (props) => {
-  const [blogs, setBlogs] = useState([])
   const username = useField('text')
   const password = useField('password')
   const [user, setUser] = useState('')
@@ -25,7 +25,7 @@ const App = (props) => {
   useEffect(() => {
     blogService.getAll().then(blogs => {
       const sorted = blogs.sort((a, b) => b.likes - a.likes)
-      setBlogs(sorted)
+      props.setBlogs(sorted)
     })
   }, [])
 
@@ -74,7 +74,7 @@ const App = (props) => {
       blogService
         .create(newBlog)
         .then(blog => {
-          setBlogs(blogs.concat(blog))
+          props.setBlogs(props.blogs.concat(blog))
           props.setNotification(`${title} by ${author} (${url}) added`, 5)
           setTitle('')
           setAuthor('')
@@ -98,8 +98,8 @@ const App = (props) => {
       blogService
         .update(blog.id, newBlog)
         .then(blog => {
-          const updated = blogs.filter(b => b.id !== blog.id)
-          setBlogs(
+          const updated = props.blogs.filter(b => b.id !== blog.id)
+          props.setBlogs(
             updated.concat(blog)
           )
           props.setNotification(`${blog.title} by ${blog.author} liked`, 5)
@@ -114,7 +114,7 @@ const App = (props) => {
       blogService
         .remove(blog.id)
         .then(() => {
-          setBlogs(blogs.filter(b => b.id !== blog.id))
+          props.setBlogs(props.blogs.filter(b => b.id !== blog.id))
           props.setNotification(`${blog.title} removed successfully!`, 5)
         })
         .catch(() => {
@@ -176,7 +176,7 @@ const App = (props) => {
         <h2>blogs</h2>
         <p>{`${user.name} logged in :)`}</p>
         <button type="button" onClick={handleLogout}>logout</button>
-        {blogs.map(blog =>
+        {props.blogs.map(blog =>
           <Blog
             key={blog.id}
             blog={blog}
@@ -214,10 +214,25 @@ const App = (props) => {
 }
 
 App.propTypes = {
+  blogs: PropTypes.array.isRequired,
   setNotification: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired
+  setError: PropTypes.func.isRequired,
+  setBlogs: PropTypes.func.isRequired
 }
 
-export default connect(
-  null, { setNotification, setError }
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogState.blogs
+  }
+}
+
+const ConnectedApp = connect(
+  mapStateToProps,
+  {
+    setNotification,
+    setError,
+    setBlogs
+  }
 )(App)
+
+export default ConnectedApp
