@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Blog from './components/Blog'
+import User from './components/User'
 import blogService from './services/blogService'
-import loginService from './services/login'
+import loginService from './services/loginService'
+import userService from './services/userService'
 import  { useField } from './hooks'
 import { setNotification, setError } from './reducers/messageReducer'
 import { setBlogs } from './reducers/blogReducer'
-import { setUser } from './reducers/userReducer'
+import { setLoggedUser, setUsers } from './reducers/userReducer'
 import Notification from './components/Notification'
 import Error from './components/Error'
 
@@ -22,6 +24,12 @@ const App = (props) => {
   const [createBlogVisible, setCreateBlogVisible] = useState(false)
 
   useEffect(() => {
+    userService.getAll().then(users => {
+      props.setUsers(users)
+    })
+  })
+
+  useEffect(() => {
     blogService.getAll().then(blogs => {
       const sorted = blogs.sort((a, b) => b.likes - a.likes)
       props.setBlogs(sorted)
@@ -31,25 +39,25 @@ const App = (props) => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      props.setUser(user)
-      blogService.setToken(user.token)
+      const loggedUser = JSON.parse(loggedUserJSON)
+      props.setLoggedUser(loggedUser)
+      blogService.setToken(loggedUser.token)
     }
   }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({
+      const loggedUser = await loginService.login({
         username: username.value,
         password: password.value
       })
       window.localStorage.setItem(
-        'loggedBloglistUser', JSON.stringify(user)
+        'loggedBloglistUser', JSON.stringify(loggedUser)
       )
       username.reset()
       password.reset()
-      props.setUser(user)
+      props.setLoggedUser(loggedUser)
     } catch(error) {
       props.setError(`invalid credentials for ${username.value}`, 5)
     }
@@ -59,7 +67,7 @@ const App = (props) => {
     window.localStorage.removeItem('loggedBloglistUser')
     username.reset()
     password.reset()
-    props.setUser(null)
+    props.setLoggedUser(null)
   }
 
   const createBlog = (event) => {
@@ -88,7 +96,7 @@ const App = (props) => {
   const likeBlog = (blog) => {
     try {
       const newBlog = {
-        user: props.user.id,
+        user: props.loggedUser.id,
         likes: blog.likes + 1,
         author: blog.author,
         title: blog.title,
@@ -167,24 +175,32 @@ const App = (props) => {
       </div>
     )
   }
-  if (props.user) {
+  if (props.loggedUser) {
     return (
       <div>
         <Notification />
         <Error />
-        <h2>blogs</h2>
-        <p>{`${props.user.name} logged in :)`}</p>
+        <h2>Blogs</h2>
+        <p>{`${props.loggedUser.name} logged in :)`}</p>
         <button type="button" onClick={handleLogout}>logout</button>
         {props.blogs.map(blog =>
           <Blog
             key={blog.id}
             blog={blog}
-            user={props.user}
+            user={props.loggedUser}
             likeBlog={likeBlog}
             removeBlog={removeBlog}
           />
         )}
         {blogForm()}
+        <h2>Users</h2>
+        {props.users.map(user =>
+          <User
+            key={user.id}
+            name={user.name}
+            blogsCreated={user.blogs.length}
+          />
+        )}
       </div>
     )
   }
@@ -214,21 +230,25 @@ const App = (props) => {
 
 App.propTypes = {
   blogs: PropTypes.array.isRequired,
-  user: PropTypes.object,
+  loggedUser: PropTypes.object,
+  users: PropTypes.array,
   setNotification: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   setBlogs: PropTypes.func.isRequired,
-  setUser: PropTypes.func.isRequired
+  setLoggedUser: PropTypes.func.isRequired,
+  setUsers: PropTypes.func.isRequired
 }
 
 App.defaultProps = {
-  user: null
+  loggedUser: null,
+  users: []
 }
 
 const mapStateToProps = (state) => {
   return {
     blogs: state.blogState.blogs,
-    user: state.userState.user
+    loggedUser: state.userState.loggedUser,
+    users: state.userState.users
   }
 }
 
@@ -238,7 +258,8 @@ const ConnectedApp = connect(
     setNotification,
     setError,
     setBlogs,
-    setUser
+    setLoggedUser,
+    setUsers
   }
 )(App)
 
