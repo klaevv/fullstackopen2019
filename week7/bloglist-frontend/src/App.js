@@ -12,6 +12,12 @@ import { setBlogs } from './reducers/blogReducer'
 import { setLoggedUser, setUsers } from './reducers/userReducer'
 import Notification from './components/Notification'
 import Error from './components/Error'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+import uniqid from 'uniqid'
 
 const App = (props) => {
   const username = useField('text')
@@ -177,31 +183,48 @@ const App = (props) => {
   }
   if (props.loggedUser) {
     return (
-      <div>
-        <Notification />
-        <Error />
-        <h2>Blogs</h2>
-        <p>{`${props.loggedUser.name} logged in :)`}</p>
-        <button type="button" onClick={handleLogout}>logout</button>
-        {props.blogs.map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={props.loggedUser}
-            likeBlog={likeBlog}
-            removeBlog={removeBlog}
-          />
-        )}
-        {blogForm()}
-        <h2>Users</h2>
+      <Router>
         {props.users.map(user =>
-          <User
-            key={user.id}
-            name={user.name}
-            blogsCreated={user.blogs.length}
-          />
+          <Route key={uniqid()}
+            exact path={`/users/${user.id}`}
+            render={() =>
+              <User
+                key={user.id}
+                name={user.name}
+                blogs={user.blogs}
+              />
+            }/>
         )}
-      </div>
+        <Route key={uniqid()} exact path="/" render={() =>
+          <div>
+            <Notification />
+            <Error />
+            <h2>Blogs</h2>
+            <p>{`${props.loggedUser.name} logged in :)`}</p>
+            <button type="button" onClick={handleLogout}>logout</button>
+            {props.blogs.map(blog =>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                user={props.loggedUser}
+                likeBlog={likeBlog}
+                removeBlog={removeBlog}
+              />
+            )}
+            {blogForm()}
+            <h2>Users</h2>
+            {props.users.map(user =>
+              <Link key={uniqid()} to={`/users/${user.id}`}>
+                <User
+                  key={user.id}
+                  name={user.name}
+                  blogsCreated={user.blogs.length}
+                />
+              </Link>
+            )}
+          </div>
+        }/>
+      </Router>
     )
   }
   const usernameProps = Object.assign({}, username)
