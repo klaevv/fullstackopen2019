@@ -18,6 +18,9 @@ import {
   Link
 } from 'react-router-dom'
 import uniqid from 'uniqid'
+import Header from './components/Header'
+import Users from './components/Users'
+import Blogs from './components/Blogs'
 
 const App = (props) => {
   const username = useField('text')
@@ -183,65 +186,73 @@ const App = (props) => {
   }
   if (props.loggedUser) {
     return (
-      <Router>
-        {props.blogs.map(blog =>
-          <Route
-            key={uniqid()}
-            exact path={`/blogs/${blog.id}`}
-            render={() =>
-              <Blog
-                key={blog.id}
-                blog={blog}
-                user={props.loggedUser}
-                likeBlog={likeBlog}
-                removeBlog={removeBlog}
-              />
-            }
+      <div className="container">
+        <Notification />
+        <Error />
+        <Router>
+          <Route exact path="/users" render={() => <Users users={props.users} /> } />
+          <Route exact path="/blogs" render={() => <Blogs blogs={props.blogs} /> } />
+          <Header
+            loggedUser={props.loggedUser}
+            handleLogout={handleLogout}
           />
-        )}
-        {props.users.map(user =>
-          <Route
-            key={uniqid()}
-            exact path={`/users/${user.id}`}
-            render={() =>
-              <User
-                key={user.id}
-                name={user.name}
-                blogs={user.blogs}
-              />
-            }/>
-        )}
-        <Route key={uniqid()} exact path="/" render={() =>
-          <div>
-            <Notification />
-            <Error />
-            <h2>Blogs</h2>
-            <p>{`${props.loggedUser.name} logged in :)`}</p>
-            <button type="button" onClick={handleLogout}>logout</button>
-            {props.blogs.map(blog =>
-              <Link key={uniqid()} to={`/blogs/${blog.id}`}>
+          {props.blogs.map(blog =>
+            <Route
+              key={uniqid()}
+              exact path={`/blogs/${blog.id}`}
+              render={() =>
                 <Blog
                   key={blog.id}
                   blog={blog}
+                  user={props.loggedUser}
                   likeBlog={likeBlog}
                   removeBlog={removeBlog}
                 />
-              </Link>
-            )}
-            {blogForm()}
-            <h2>Users</h2>
-            {props.users.map(user =>
-              <Link key={uniqid()} to={`/users/${user.id}`}>
+              }
+            />
+          )}
+          {props.users.map(user =>
+            <Route
+              key={uniqid()}
+              exact path={`/users/${user.id}`}
+              render={() =>
                 <User
                   key={user.id}
                   name={user.name}
-                  blogsCreated={user.blogs.length}
+                  blogs={user.blogs}
                 />
-              </Link>
-            )}
-          </div>
-        }/>
-      </Router>
+              }/>
+          )}
+          <Route key={uniqid()} exact path="/" render={() =>
+            <div>
+              <Notification />
+              <Error />
+              <h2>Blogs</h2>
+              {props.blogs.map(blog =>
+                <Link key={uniqid()} to={`/blogs/${blog.id}`}>
+                  <Blog
+                    key={blog.id}
+                    blog={blog}
+                    likeBlog={likeBlog}
+                    removeBlog={removeBlog}
+                  />
+                </Link>
+              )}
+              {blogForm()}
+              <h2>Users</h2>
+              {props.users.map(user =>
+                <Link key={uniqid()} to={`/users/${user.id}`}>
+                  <User
+                    key={user.id}
+                    name={user.name}
+                    blogsCreated={user.blogs.length}
+                  />
+                </Link>
+              )}
+            </div>
+          }/>
+        </Router>
+      </div>
     )
   }
   const usernameProps = Object.assign({}, username)
