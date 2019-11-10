@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 const Blog = ({ blog, user, likeBlog, removeBlog }) => {
-  const [fullInfoVisible, setfullInfoVisible] = useState(false)
-
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -12,10 +10,10 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
     marginBottom: 5
   }
 
-  if (fullInfoVisible) {
+  if (user) {
     return (
       <div style={blogStyle} className="blog">
-        <div onClick={() => setfullInfoVisible(!fullInfoVisible)}>
+        <div>
           {blog.title}, {blog.author}
           <div>
             {blog.url}
@@ -45,7 +43,6 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
     <div
       style={blogStyle}
       alt="smallBox"
-      onClick={() => setfullInfoVisible(!fullInfoVisible)}
       className="openInfo"
     >
       {blog.title}, {blog.author}
@@ -53,10 +50,14 @@ const Blog = ({ blog, user, likeBlog, removeBlog }) => {
   )
 }
 
+Blog.defaultProps = {
+  user: null
+}
+
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  likeBlog: PropTypes.func.isRequired,
+  likeBlog: PropTypes.func,
   removeBlog: PropTypes.func.isRequired
 }
 

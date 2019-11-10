@@ -184,8 +184,24 @@ const App = (props) => {
   if (props.loggedUser) {
     return (
       <Router>
+        {props.blogs.map(blog =>
+          <Route
+            key={uniqid()}
+            exact path={`/blogs/${blog.id}`}
+            render={() =>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                user={props.loggedUser}
+                likeBlog={likeBlog}
+                removeBlog={removeBlog}
+              />
+            }
+          />
+        )}
         {props.users.map(user =>
-          <Route key={uniqid()}
+          <Route
+            key={uniqid()}
             exact path={`/users/${user.id}`}
             render={() =>
               <User
@@ -203,13 +219,14 @@ const App = (props) => {
             <p>{`${props.loggedUser.name} logged in :)`}</p>
             <button type="button" onClick={handleLogout}>logout</button>
             {props.blogs.map(blog =>
-              <Blog
-                key={blog.id}
-                blog={blog}
-                user={props.loggedUser}
-                likeBlog={likeBlog}
-                removeBlog={removeBlog}
-              />
+              <Link key={uniqid()} to={`/blogs/${blog.id}`}>
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  likeBlog={likeBlog}
+                  removeBlog={removeBlog}
+                />
+              </Link>
             )}
             {blogForm()}
             <h2>Users</h2>
