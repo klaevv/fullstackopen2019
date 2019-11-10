@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-const Notification = (props) => {
+const Error = (props) => {
   const style = {
     border: 'solid',
     padding: 10,
@@ -20,7 +20,7 @@ const Notification = (props) => {
   )
 }
 
-Notification.propTypes = {
+Error.propTypes = {
   messages: PropTypes.object.isRequired
 }
 
@@ -32,6 +32,6 @@ const mapStateToProps = (state) => {
 
 const ConnectedNotification = connect(
   mapStateToProps
-)(Notification)
+)(Error)
 
 export default ConnectedNotification
