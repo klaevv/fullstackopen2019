@@ -209,13 +209,19 @@ const App = (props) => {
               key={uniqid()}
               exact path={`/blogs/${blog.id}`}
               render={() =>
-                <Blog
-                  key={blog.id}
-                  blog={blog}
-                  user={props.loggedUser}
-                  likeBlog={likeBlog}
-                  removeBlog={removeBlog}
-                />
+                <div>
+                  <Header
+                    loggedUser={props.loggedUser}
+                    handleLogout={handleLogout}
+                  />
+                  <Blog
+                    key={blog.id}
+                    blog={blog}
+                    user={props.loggedUser}
+                    likeBlog={likeBlog}
+                    removeBlog={removeBlog}
+                  />
+                </div>
               }
             />
           )}
@@ -240,6 +246,7 @@ const App = (props) => {
               <Notification />
               <Error />
               <h2>Blogs</h2>
+              {blogForm()}
               {props.blogs.map(blog =>
                 <Link key={uniqid()} to={`/blogs/${blog.id}`}>
                   <Blog
@@ -250,7 +257,6 @@ const App = (props) => {
                   />
                 </Link>
               )}
-              {blogForm()}
               <h2>Users</h2>
               {props.users.map(user =>
                 <Link key={uniqid()} to={`/users/${user.id}`}>
