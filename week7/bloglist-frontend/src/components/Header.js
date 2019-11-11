@@ -1,20 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { Menu } from 'semantic-ui-react'
 
 function Header({ loggedUser, handleLogout }) {
 
   return (
-    <div>
-      <Link to="/blogs">
-        <p>blogs</p>
-      </Link>
-      <Link to="/users">
-        <p>users</p>
-      </Link>
-      <p>{`${loggedUser.name} logged in :)`}</p>
-      <button type="button" onClick={handleLogout}>logout</button>
-    </div>
+    <Menu inverted>
+      <Menu.Item link>
+        <Link to="/">home</Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/blogs">blogs</Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/users">users</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <p>{`${loggedUser.name} logged in :)`}</p>
+      </Menu.Item>
+      <Menu.Item>
+        <button type="button" onClick={handleLogout}>logout</button>
+      </Menu.Item>
+    </Menu>
   )
 }
 

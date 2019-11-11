@@ -21,6 +21,7 @@ import uniqid from 'uniqid'
 import Header from './components/Header'
 import Users from './components/Users'
 import Blogs from './components/Blogs'
+import { Container, Form } from 'semantic-ui-react'
 
 const App = (props) => {
   const username = useField('text')
@@ -67,8 +68,9 @@ const App = (props) => {
       username.reset()
       password.reset()
       props.setLoggedUser(loggedUser)
+      props.setNotification('Successfull login!', 5)
     } catch(error) {
-      props.setError(`invalid credentials for ${username.value}`, 5)
+      props.setError(`invalid credentials for ${username.value}.`, 5)
     }
   }
 
@@ -186,16 +188,22 @@ const App = (props) => {
   }
   if (props.loggedUser) {
     return (
-      <div className="container">
-        <Notification />
-        <Error />
+      <Container>
         <Router>
-          <Route exact path="/users" render={() => <Users users={props.users} /> } />
-          <Route exact path="/blogs" render={() => <Blogs blogs={props.blogs} /> } />
-          <Header
-            loggedUser={props.loggedUser}
-            handleLogout={handleLogout}
-          />
+          <Route exact path="/users" render={() =>
+            <Users
+              users={props.users}
+              loggedUser={props.loggedUser}
+              handleLogout={handleLogout}
+            />
+          }/>
+          <Route exact path="/blogs" render={() =>
+            <Blogs
+              blogs={props.blogs}
+              loggedUser={props.loggedUser}
+              handleLogout={handleLogout}
+            />
+          }/>
           {props.blogs.map(blog =>
             <Route
               key={uniqid()}
@@ -225,6 +233,10 @@ const App = (props) => {
           )}
           <Route key={uniqid()} exact path="/" render={() =>
             <div>
+              <Header
+                loggedUser={props.loggedUser}
+                handleLogout={handleLogout}
+              />
               <Notification />
               <Error />
               <h2>Blogs</h2>
@@ -252,7 +264,7 @@ const App = (props) => {
             </div>
           }/>
         </Router>
-      </div>
+      </Container>
     )
   }
   const usernameProps = Object.assign({}, username)
@@ -260,11 +272,11 @@ const App = (props) => {
   const passwordProps = Object.assign({}, password)
   delete passwordProps.reset
   return (
-    <div>
+    <Container>
       <Notification />
       <Error />
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <Form onSubmit={handleLogin}>
         <div>
           username
           <input {...usernameProps} />
@@ -274,8 +286,8 @@ const App = (props) => {
           <input {...passwordProps} />
         </div>
         <button type="submit">login</button>
-      </form>
-    </div>
+      </Form>
+    </Container>
   )
 }
 
