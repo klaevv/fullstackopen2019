@@ -1,4 +1,4 @@
-interface ExerciseFeedback {
+export interface ExerciseFeedback {
   periodLength: number
   trainingDays: number
   success: boolean
@@ -13,7 +13,7 @@ interface Arguments {
   target: number
 }
 
-const exerciseCalculator = (data: Array<number>, target: number): ExerciseFeedback => {
+export const exerciseCalculator = (data: Array<number>, target: number): ExerciseFeedback => {
   const avg = data.reduce((a, b) => a + b, 0) / data.length;
   const rating = avg > target ? 3 : avg === target ? 2 : 1;
   const ratingDescription =
