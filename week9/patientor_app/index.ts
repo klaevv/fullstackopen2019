@@ -1,5 +1,9 @@
 import express from 'express';
+import diagnosisRouter from './src/routes/diagnosisRouter';
+
 const app = express();
+
+app.use('/api/diagnoses', diagnosisRouter);
 app.use(express.json());
 
 const PORT = 3001;
