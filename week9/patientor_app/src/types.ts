@@ -9,8 +9,10 @@ export interface Patient {
   name: string
   dateOfBirth: string
   ssn: string
-  gender: string
+  gender: Gender
   occupation: string
 }
+
+export type Gender = 'Male' | 'Female' | 'Other';
 
 export type NonSensitivePatient = Omit<Patient, 'ssn'>;
