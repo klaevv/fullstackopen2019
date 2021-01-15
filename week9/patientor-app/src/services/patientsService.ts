@@ -3,17 +3,20 @@ import patients from '../data/patients.json';
 import { Patient, NonSensitivePatient } from '../types';
 
 const getPatients = (): Patient[] => {
-    return patients;
+    return patients as Patient[];
 };
 
 const getNonSensitivePatients = (): NonSensitivePatient[] => {
-    return patients.map(({ id, name, dateOfBirth, occupation, gender }) => ({
-        id,
-        name,
-        dateOfBirth,
-        occupation,
-        gender,
-    }));
+    return patients.map(
+        ({ id, name, dateOfBirth, occupation, gender }) =>
+            ({
+                id,
+                name,
+                dateOfBirth,
+                occupation,
+                gender,
+            } as Patient)
+    );
 };
 
 const addPatient = (entry: Patient): Patient => {
