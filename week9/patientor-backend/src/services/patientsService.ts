@@ -20,7 +20,7 @@ const getNonSensitivePatients = (): NonSensitivePatient[] => {
 };
 
 const addPatient = (entry: Patient): Patient => {
-    const newPatient = { ...entry };
+    const newPatient = { ...entry, entries: [] };
     patients.push(newPatient);
     return newPatient;
 };
