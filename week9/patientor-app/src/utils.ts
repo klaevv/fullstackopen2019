@@ -8,5 +8,6 @@ export const toNewPatientEntry = (object: Patient): Patient => {
         occupation: object.occupation,
         gender: object.gender,
         ssn: object.ssn,
+        entries: object.entries,
     };
 };

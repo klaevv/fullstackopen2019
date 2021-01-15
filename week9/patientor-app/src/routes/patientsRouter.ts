@@ -12,12 +12,15 @@ router.get('/', (_req, res) => {
 router.post('/', (req, res) => {
     try {
         const newPatientEntry: Patient = toNewPatientEntry(req.body);
-
         const addedEntry: Patient = patientsService.addPatient(newPatientEntry);
         res.json(addedEntry);
     } catch (e) {
         res.status(400).send('Error');
     }
+});
+
+router.get('/:id', (req, res) => {
+    res.send(patientsService.getPatient(req.params.id));
 });
 
 export default router;
