@@ -6,7 +6,21 @@
         "ssn": "090786-122X",
         "gender": "male",
         "occupation": "New york city cop",
-        "entries": []
+        "entries": [
+            {
+                "id": "d2773336-f723-11e9-8f0b-362b9e155667",
+                "date": "2010-02-02",
+                "type": "HealthCheck",
+                "specialist": "John Doe",
+                "diagnosisCodes": ["M51.2"],
+                "description": "Patient hit his head and is hurt now.",
+                "discharge": {
+                    "date": "2010-02-10",
+                    "criteria": "Head is ok now."
+                },
+                "healthCheckRating": 1
+            }
+        ]
     },
     {
         "id": "d2773598-f723-11e9-8f0b-362b9e155667",
